@@ -10,13 +10,16 @@ import org.springframework.context.annotation.Profile;
 
 import com.example.demo.entities.Category;
 import com.example.demo.entities.Order;
+import com.example.demo.entities.OrderItem;
 import com.example.demo.entities.Product;
 import com.example.demo.entities.User;
 import com.example.demo.enums.OrderStatus;
 import com.example.demo.repositories.CategoryRepository;
+import com.example.demo.repositories.OrderItemRepository;
 import com.example.demo.repositories.OrderRepository;
 import com.example.demo.repositories.ProductRepository;
 import com.example.demo.repositories.UserRepository;
+import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 @Configuration
 @Profile("test")
@@ -27,6 +30,9 @@ public class TesteConfig implements CommandLineRunner {
 	
 	@Autowired
 	private OrderRepository orderRepository;
+	
+	@Autowired
+	private OrderItemRepository orderItemRepository;
 	
 	@Autowired
 	private CategoryRepository categoryRepository;
@@ -65,9 +71,18 @@ public class TesteConfig implements CommandLineRunner {
 		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), OrderStatus.PAID, u1);
 		Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), OrderStatus.WAITING_PAYEMENT, u2);
 		Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"), OrderStatus.WAITING_PAYEMENT, u1); 
-						
+			
+		
 		userRepository.saveAll(Arrays.asList(u1, u2));
-		orderRepository.saveAll( Arrays.asList(o1,o2,o3));		
+		orderRepository.saveAll( Arrays.asList(o1,o2,o3));	
+		
+		OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+		OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+		OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice()); 
+		
+		orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
+		
 	}
 	
 }

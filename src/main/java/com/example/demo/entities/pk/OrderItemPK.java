@@ -8,20 +8,21 @@ import javax.persistence.ManyToOne;
 
 import com.example.demo.entities.Order;
 import com.example.demo.entities.Product;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Embeddable
 public class OrderItemPK implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	
+			
 	@ManyToOne
 	@JoinColumn(name = "order_id")
 	private Order order;
-	
+		
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
-	
+		
 	public Order getOrder() {
 		return order;
 	}
